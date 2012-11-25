@@ -19,6 +19,7 @@ package com.finegamedesign.regulate
         public var message:String;
         public var onComplete:Function;
         public var result:String;
+        public var compare:CompareTimerToDate;
 
         /**
          * Record milliseconds since start of application, 
@@ -27,7 +28,7 @@ package com.finegamedesign.regulate
          * If pass in a timer, it does not start.
          * Example @see TestRegulate.as
          */
-        public function TimerAccuracy(frameRate:Number, delay:Number, repeatCount:int, onComplete:Function, yourTimer:Timer=null, message:String = ""):void {
+        public function TimerAccuracy(frameRate:Number, delay:Number, repeatCount:int, onComplete:Function, yourTimer:Timer=null, message:String=""):void {
             if (repeatCount <= 9) {
                 throw new Error("Need at least 10 samples to measure drift.");
             }
@@ -59,8 +60,9 @@ package com.finegamedesign.regulate
                 timer.start();
             }
             var seconds:int = Math.ceil(0.001 * delay * repeatCount);
-            onComplete("\nTimerAccuracy: Starting a timer. Please wait " 
+            onComplete("\nTimerAccuracy: " + message + "starting. Please wait " 
                 + seconds + " seconds for the report below...");
+            compare = new CompareTimerToDate();
         }
 
         public function record(event:Event):void
@@ -71,6 +73,7 @@ package com.finegamedesign.regulate
         public function report(event:Event):void
         {
             event.target.stop();
+            var compareMessage:String = compare.report();
             result = "\n\n" + message;
             result += "reportTime: delay: " + delay + " frameRate: " + frameRate + " repeatCount: " + repeatCount;
             result += "\ntimes: " + times;
@@ -100,6 +103,7 @@ package com.finegamedesign.regulate
             min = Math.min.apply(null, driftsSlice);
             max = Math.max.apply(null, driftsSlice);
             result += "\nafter first 4, min: " + min + " max: " + max;
+            result += "\n" + compareMessage;
 
             onComplete(result);
         }

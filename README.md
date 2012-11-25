@@ -30,6 +30,11 @@ http://cookbooks.adobe.com/post_Accurate_timer-17332.html
 http://www.computus.org/journal/?p=25
 http://www.computus.org/journal/?page_id=869
 
+Tinic Uro, Adobe Flash Engineer, explained why timing may be irregular in Flash Player 10.1:
+
+"Timing it right"
+http://blog.kaourantin.net/?p=82
+
 Example report:
 
 Regular Timer reportTime: delay: 500 frameRate: 30 repeatCount: 20
